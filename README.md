@@ -1,2 +1,2 @@
 # tradecalculator
-Position size calculator trading tool
+Position size calculator trading tool built with Vite
