@@ -169,7 +169,7 @@ export default {
                 this.results.order_size = risk / (this.input.order_price - this.input.stop_loss)
                 this.results.profit = (this.input.exit_price - this.input.order_price) * this.results.order_size
             } else {
-                this.results.order_size = risk / (this.input.order_price + this.input.stop_loss)
+                this.results.order_size = risk / (this.input.stop_loss - this.input.order_price)
                 this.results.profit = (this.input.order_price - this.input.exit_price) * this.results.order_size
             }
 
