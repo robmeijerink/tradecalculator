@@ -1,0 +1,28 @@
+runtime: go116
+
+instance_class: F1
+
+# env_variables:
+#   BUCKET_NAME: "example-gcs-bucket"
+
+handlers:
+- url: /
+  static_dir: dist
+  http_headers:
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# - url: /js
+#   static_dir: public/js
+#   http_headers:
+#     Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# - url: /(.*\.(svg|gif|png|jpg))$
+#   static_files: public/images/\1
+#   upload: public/.*\.(svg|gif|png|jpg)$
+#   http_headers:
+#     Strict-Transport-Security: max-age=31536000; includeSubDomains
+    
+- url: /.*
+  script: auto
+  secure: always
+  redirect_http_response_code: 301
