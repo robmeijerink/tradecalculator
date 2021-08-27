@@ -2,14 +2,14 @@
     <div class="bg-white p-10 md:w-3/4 lg:w-1/2 mx-auto mb-2">
         <form>
             <div class="flex items-center mb-5">
-                <label for="account_balance" class="inline-block w-20 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="account_balance" class="inline-block w-32 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
                     Balance
                 </label>
                 <input v-model.number="input.account_balance" v-maska="masks.price" inputmode="numeric" @keydown.space.prevent type="text" id="account_balance" name="account_balance" placeholder="$$$" 
                     class="flex-1 py-2 border-b-2 border-gray-400 green-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="flex items-center mb-10">
-                <label for="risk" class="inline-block w-20 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="risk" class="inline-block w-32 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
                     Risk
                 </label>
                 <div class="flex-1 flex items-center">
@@ -18,21 +18,21 @@
                 </div>
             </div>
             <div class="flex items-center mb-10">
-                <label for="type" class="inline-block w-20 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="type" class="inline-block w-32 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
                     Type
                 </label>
-                <label class="py-3 px-8 text-gray-700 mr-5 cursor-pointer" :class="getRadioBtnClass('long')">
+                <label class="py-3 pl-4 pr-8 mr-5 cursor-pointer" :class="getRadioBtnClass('long')">
                     <input v-model="input.type" name="type" type="radio" value="long"/>
-                    <span class="ml-1">Long</span>
+                    <span class="ml-3">Long</span>
                 </label>
-                <label class="py-3 px-8 text-gray-700 cursor-pointer"  :class="getRadioBtnClass('short')">
+                <label class="py-3 pl-4 pr-8 cursor-pointer" :class="getRadioBtnClass('short')">
                     <input v-model="input.type" name="type" type="radio" value="short"/>
-                    <span class="ml-1">Short</span>
+                    <span class="ml-3">Short</span>
                 </label>
             </div>
             <hr class="mb-8">
             <div class="flex items-center mb-5">
-                <label for="order_price" class="inline-block w-20 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="order_price" class="inline-block w-32 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
                     Order Price
                 </label>
                 <span v-if="!validExitPrice || !validStopLoss" class="pr-2">
@@ -42,7 +42,7 @@
                     class="flex-1 py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="flex items-center mb-5">
-                <label for="exit_price" class="inline-block w-20 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="exit_price" class="inline-block w-32 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
                     Exit Price (TP)
                 </label>
                 <span v-if="!validExitPrice" class="pr-2">
@@ -52,7 +52,7 @@
                     class="flex-1 py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="flex items-center mb-5">
-                <label for="stop_loss" class="inline-block w-20 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="stop_loss" class="inline-block w-32 mr-16 text-right font-bold text-gray-600 whitespace-nowrap">
                     Stop Loss
                 </label>
                 <span v-if="!validStopLoss" class="pr-2">
@@ -63,13 +63,15 @@
             </div>
             <div class="text-right">
                 <button :disabled="!canSubmit" :class="submitBtnClass" class="py-3 px-8 text-white font-bold" @click.prevent="calculate">
-                    <i class="fas fa-calculator"></i> Calculate
+                    <i class="fas mr-3" :class="{ 'fa-check': finishedCalculating, 'fa-calculator': !finishedCalculating }"></i> Calculate
                 </button> 
             </div>
         </form>
         <div v-if="hasResults">
+            <hr class="mt-8 mb-4">
             <position-preview :order="order"></position-preview>
-            <position-size :results="results"></position-size>
+            <hr class="mt-8 mb-4">
+            <position-results :results="results"></position-results>
         </div>
     </div>
 </template>
@@ -77,13 +79,13 @@
 <script>
 
 import PositionPreview from './PositionPreview.vue'
-import PositionSize from './PositionSize.vue'
+import PositionResults from './PositionResults.vue'
 import {isEmpty} from 'lodash'
 
 export default {
     components: {
         PositionPreview,
-        PositionSize,
+        PositionResults,
     },
     props: ['type'],
     data() {
@@ -101,6 +103,7 @@ export default {
             },
             results: {},
             order: {},
+            finishedCalculating: false,
         }
     },
     watch: {
@@ -186,13 +189,16 @@ export default {
                 take_profit: this.input.exit_price,
                 stop_loss: this.input.stop_loss,
             }
+
+            this.finishedCalculating = true
+            setTimeout(() => this.finishedCalculating = false, 250)
         },
         getRadioBtnClass(name) {
             if (this.type == name) {
-                return `bg-${this.typeColor.main}`
+                return `bg-${this.typeColor.main} text-white`
             }
 
-            return 'bg-gray-200'
+            return 'bg-gray-200 text-gray-700'
         },
         onlyNumeric(event) {
             const whitelist = [
