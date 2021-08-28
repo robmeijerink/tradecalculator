@@ -1,4 +1,4 @@
-runtime: go116
+runtime: go115
 
 instance_class: F1
 
@@ -7,20 +7,21 @@ instance_class: F1
 
 handlers:
 - url: /
-  static_dir: dist
+  static_files: dist/index.html
+  upload: dist/index.html
   http_headers:
     Strict-Transport-Security: max-age=31536000; includeSubDomains
 
-# - url: /js
-#   static_dir: public/js
-#   http_headers:
-#     Strict-Transport-Security: max-age=31536000; includeSubDomains
+- url: /favicon.ico
+  static_files: dist/favicon.ico
+  upload: dist/favicon.ico
+  http_headers:
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
 
-# - url: /(.*\.(svg|gif|png|jpg))$
-#   static_files: public/images/\1
-#   upload: public/.*\.(svg|gif|png|jpg)$
-#   http_headers:
-#     Strict-Transport-Security: max-age=31536000; includeSubDomains
+- url: /assets
+  static_dir: dist/assets
+  http_headers:
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
     
 - url: /.*
   script: auto
