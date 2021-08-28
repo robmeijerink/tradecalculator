@@ -2,9 +2,12 @@
     <div class="bg-white p-10 md:w-3/4 lg:w-1/2 mx-auto mb-2">
         <form>
             <div class="sm:flex items-center mb-5">
-                <label for="account_balance" class="inline-block w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="account_balance" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
                     Balance
                 </label>
+                <span v-if="!input.account_balance" class="pr-2">
+                    <i class="fas fa-times-circle text-red-400"></i>
+                </span>
                 <input v-model.number="input.account_balance" v-maska="masks.price" inputmode="numeric" @keydown.space.prevent type="text" id="account_balance" name="account_balance" placeholder="$$$" 
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 green-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
@@ -34,7 +37,7 @@
             </div>
             <hr class="mb-8">
             <div class="sm:flex items-center mb-5">
-                <label for="order_price" class="inline-block w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="order_price" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
                     Order Price
                 </label>
                 <span v-if="!validExitPrice || !validStopLoss" class="pr-2">
@@ -44,7 +47,7 @@
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:flex items-center mb-5">
-                <label for="exit_price" class="inline-block w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="exit_price" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
                     Exit Price (TP)
                 </label>
                 <span v-if="!validExitPrice" class="pr-2">
@@ -54,7 +57,7 @@
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:flex items-center mb-5">
-                <label for="stop_loss" class="inline-block w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
+                <label for="stop_loss" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
                     Stop Loss
                 </label>
                 <span v-if="!validStopLoss" class="pr-2">
@@ -96,9 +99,9 @@ export default {
                 account_balance: 1000,
                 risk: 1.00,
                 type: 'long',
-                order_price: 50000,
-                exit_price: 55000,
-                stop_loss: 48000,
+                order_price: null,
+                exit_price: null,
+                stop_loss: null,
             },
             masks: {
                 price: '#*.##',
@@ -112,6 +115,8 @@ export default {
         'input.type': function (val) {
             let diffSl, diffTp
 
+            this.$emit('update-type', val)
+
             if (val === 'long') {
                 diffSl = this.input.order_price + (this.input.order_price - this.input.stop_loss)
                 diffTp = this.input.order_price - (this.input.exit_price - this.input.order_price)
@@ -123,14 +128,10 @@ export default {
             if (diffSl > 0 && diffTp > 0) {
                 this.input.stop_loss = diffSl
                 this.input.exit_price = diffTp
-
-                this.$emit('update-type', val)
             }
         },
         'input.risk': function (val) {
-            console.log('in watch')
             if (val > 100) {
-                console.log('in if')
                 this.input.risk = 100
             }
         }
@@ -152,9 +153,19 @@ export default {
         submitBtnClass() {
             let classNames = 'bg-' + (this.canSubmit ? this.typeColor.main : this.typeColor.muted)
 
+            if (this.canSubmit) {
+                classNames += ' cursor-pointer'
+            } else {
+                classNames += ' cursor-not-allowed'
+            }
+
             return classNames
         },
         validExitPrice() {
+            if (! this.input.exit_price) {
+                return true
+            }
+
             if (this.type === 'long') {
                 return this.input.order_price < this.input.exit_price
             }
@@ -162,6 +173,10 @@ export default {
             return this.input.order_price > this.input.exit_price
         },
         validStopLoss() {
+            if (! this.input.stop_loss) {
+                return true
+            }
+
             if (this.type === 'long') {
                 return this.input.order_price > this.input.stop_loss
             }

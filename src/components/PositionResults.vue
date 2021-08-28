@@ -21,7 +21,7 @@
                         Loss
                     </span>
                     <span class="w-8/12 flex-grow">
-                        ${{ results.loss }}
+                        {{ money(results.loss) }}
                     </span>
                 </div>
                 <div class="flex items-center mb-2">
@@ -29,7 +29,7 @@
                         Profit
                     </span>
                     <span class="w-8/12 flex-grow">
-                        ${{ results.profit }}
+                        {{ money(results.profit) }}
                     </span>
                 </div>
                 <div class="flex items-center mb-2" :class="classBag.textColor">

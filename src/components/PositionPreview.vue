@@ -11,7 +11,7 @@
                 </span>
                 <div class="flex items-center w-full">
                     <span class="flex-grow">
-                        ${{ order.order_price }}
+                        {{ money(order.order_price) }}
                     </span>
                     <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('order_price')" title="Copy Order Price">
                         <i :class="{ 'fas fa-check': copied === 'order_price', 'far fa-copy': copied !== 'order_price' }"></i>
@@ -24,7 +24,7 @@
                 </span>
                 <div class="flex items-center w-full">
                     <span class="flex-grow">
-                    {{ order.qty }}
+                    {{ order.qty.toLocaleString() }}
                     </span>
                     <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('qty')" title="Copy Qty">
                         <i :class="{ 'fas fa-check': copied === 'qty', 'far fa-copy': copied !== 'qty' }"></i>
@@ -37,7 +37,7 @@
                 </span>
                 <div class="flex items-center w-full">
                     <span class="flex-grow">
-                        ${{ order.take_profit }}
+                        {{ money(order.take_profit) }}
                     </span>
                     <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('take_profit')" title="Copy Take Profit">
                         <i :class="{ 'fas fa-check': copied === 'take_profit', 'far fa-copy': copied !== 'take_profit' }"></i>
@@ -50,7 +50,7 @@
                 </span>
                 <div class="flex items-center w-full">
                     <span class="flex-grow">
-                        ${{ order.stop_loss }}
+                        {{ money(order.stop_loss) }}
                     </span>
                     <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('stop_loss')" title="Copy Stop Loss">
                         <i :class="{ 'fas fa-check': copied === 'stop_loss', 'far fa-copy': copied !== 'stop_loss' }"></i>

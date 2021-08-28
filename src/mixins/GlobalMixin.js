@@ -5,5 +5,10 @@ export default {
         return {
             globalColors: Colors
         }
-    }
+    },
+    methods: {
+        money(val) {
+            return Number(val).toLocaleString(undefined, { style: 'currency', currency: 'USD' })
+        }
+    },
 }
