@@ -18,6 +18,7 @@ module.exports = {
       'bg-red-400',
       'bg-green-400',
       'bg-green-200',
+      'bg-red-200',
     ]
   },
   darkMode: false, // or 'media' or 'class'
