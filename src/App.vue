@@ -1,19 +1,22 @@
 <template>
   <div class="py-2 px-10 min-h-screen" :class="bgClass">
-    <div class="pl-6 p-10 md:w-3/4 lg:w-1/2 mx-auto">
-        <h1 class="text-white text-2xl">Trade Position Size Calculator</h1>
-    </div>
+    <logo-header :type="type"></logo-header>
     <position-calculator :type="type" @update-type="updateType"></position-calculator>
+    <developer-credits></developer-credits>
   </div>
 </template>
 
 <script>
 
+import LogoHeader from './components/LogoHeader.vue'
 import PositionCalculator from './components/PositionCalculator.vue'
+import DeveloperCredits from './components/DeveloperCredits.vue'
 
 export default {
   components: {
+    LogoHeader,
     PositionCalculator,
+    DeveloperCredits,
   },
   data() {
     return {
@@ -23,7 +26,14 @@ export default {
   computed: {
     bgClass() {
       return 'bg-' + this.globalColors[this.type].main
-    }
+    },
+    headerImg() {
+        if (this.type === 'long') {
+            return require()
+        }
+
+        return require('./assets/trading-calculator-rood-diap.svg')
+    },
   },
   methods: {
     updateType(type) {

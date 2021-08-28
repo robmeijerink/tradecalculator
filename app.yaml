@@ -9,17 +9,23 @@ handlers:
 - url: /
   static_files: dist/index.html
   upload: dist/index.html
+  secure: always
+  redirect_http_response_code: 301
   http_headers:
     Strict-Transport-Security: max-age=31536000; includeSubDomains
 
 - url: /favicon.ico
   static_files: dist/favicon.ico
   upload: dist/favicon.ico
+  secure: always
+  redirect_http_response_code: 301
   http_headers:
     Strict-Transport-Security: max-age=31536000; includeSubDomains
 
 - url: /assets
   static_dir: dist/assets
+  secure: always
+  redirect_http_response_code: 301
   http_headers:
     Strict-Transport-Security: max-age=31536000; includeSubDomains
     
