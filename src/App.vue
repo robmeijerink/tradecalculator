@@ -27,13 +27,6 @@ export default {
     bgClass() {
       return 'bg-' + this.globalColors[this.type].main
     },
-    headerImg() {
-        if (this.type === 'long') {
-            return require()
-        }
-
-        return require('./assets/trading-calculator-rood-diap.svg')
-    },
   },
   methods: {
     updateType(type) {
