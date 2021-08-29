@@ -24,7 +24,7 @@
                 </span>
                 <div class="flex items-center w-full">
                     <span class="flex-grow">
-                    {{ order.qty.toLocaleString() }}
+                    {{ order.qty.toLocaleString('en-US') }}
                     </span>
                     <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('qty')" title="Copy Qty">
                         <i :class="{ 'fas fa-check': copied === 'qty', 'far fa-copy': copied !== 'qty' }"></i>
