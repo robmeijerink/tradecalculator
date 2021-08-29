@@ -8,7 +8,7 @@ export default {
     },
     methods: {
         money(val) {
-            return Number(val).toLocaleString(undefined, { style: 'currency', currency: 'USD' })
+            return Number(val).toLocaleString('en-US', { style: 'currency', currency: 'USD' })
         }
     },
 }

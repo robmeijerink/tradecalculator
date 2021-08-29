@@ -67,7 +67,7 @@
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:text-right">
-                <button :disabled="!canSubmit" :class="submitBtnClass" class="w-full sm:w-60 py-3 px-8 text-white font-bold" @click.prevent="calculate">
+                <button :disabled="!canSubmit" :class="submitBtnClass" class="w-full sm:w-60 py-3 px-8 mt-4 text-white font-bold" @click.prevent="calculate">
                     <i class="fas mr-3" :class="{ 'fa-check': finishedCalculating, 'fa-calculator': !finishedCalculating }"></i> Calculate
                 </button> 
             </div>
@@ -225,12 +225,12 @@ export default {
             return 'bg-gray-200 text-gray-700'
         },
         onlyNumeric(event) {
-            const whitelist = [
+            const safelist = [
                 'Backspace',
                 'Delete'
             ]
 
-            if (! whitelist.includes(event.key) && isNaN(event.key)) {
+            if (! safelist.includes(event.key) && isNaN(event.key)) {
                 event.preventDefault()
 
                 if ([',', '.'].includes(event.key) && ! event.target.value.includes('.')) {

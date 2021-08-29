@@ -5,8 +5,8 @@
         </div>
         <hr class="mt-4 mb-8">
         <div class="flex flex-col">
-            <div class="block sm:flex  items-center mb-3">
-                <span class="w-full inline-block sm:w-56 sm:pr-16 sm:text-right font-semibold text-gray-600">
+            <div class="block sm:flex items-center mb-3">
+                <span class="w-full inline-block sm:w-72 sm:pr-16 sm:text-right font-semibold text-gray-600">
                     Order Price
                 </span>
                 <div class="flex items-center w-full">
@@ -18,8 +18,8 @@
                     </span>
                 </div>
             </div>
-            <div class="block sm:flex  items-center mb-3">
-                <span class="w-full inline-block sm:w-56 sm:pr-16 sm:text-right font-semibold text-gray-600">
+            <div class="block sm:flex items-center mb-3">
+                <span class="w-full inline-block sm:w-72 sm:pr-16 sm:text-right font-semibold text-gray-600">
                     Qty
                 </span>
                 <div class="flex items-center w-full">
@@ -31,8 +31,8 @@
                     </span>
                 </div>
             </div>
-            <div class="block sm:flex  items-center mb-3">
-                <span class="w-full inline-block sm:w-56 sm:pr-16 sm:text-right font-semibold text-gray-600">
+            <div class="block sm:flex items-center mb-3">
+                <span class="w-full inline-block sm:w-72 sm:pr-16 sm:text-right font-semibold text-gray-600">
                     Take Profit
                 </span>
                 <div class="flex items-center w-full">
@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="block sm:flex items-center">
-                <span class="w-full inline-block sm:w-56 sm:pr-16 sm:text-right font-semibold text-gray-600">
+                <span class="w-full inline-block sm:w-72 sm:pr-16 sm:text-right font-semibold text-gray-600">
                     Stop Loss
                 </span>
                 <div class="flex items-center w-full">
@@ -73,7 +73,7 @@ export default {
     methods: {
         copy(name) {
             this.copied = name
-            navigator.clipboard.writeText(this.order[name]);
+            navigator.clipboard.writeText(this.order[name])
 
             setTimeout(() => this.copied = null, 250)
         }
