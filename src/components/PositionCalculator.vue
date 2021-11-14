@@ -251,4 +251,8 @@ export default {
     width: 95%;
 }
 
+#risk:focus-visible {
+    outline: none;
+}
+
 </style>
