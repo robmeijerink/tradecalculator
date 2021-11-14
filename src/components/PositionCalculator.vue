@@ -16,7 +16,7 @@
                     Risk
                 </label>
                 <div class="flex-1 flex items-center">
-                    <input v-model.number="input.risk" @keydown="onlyNumeric" type="number" min="0" max="100" step="0.05" id="risk" name="risk" class="w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 mr-4" placeholder="Recommended: 1%">
+                    <input v-model.number="input.risk" @keydown="onlyNumeric" type="number" min="0" max="100" step="0.05" id="risk" name="risk" class="w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 mr-4" :class="`focus:border-${typeColor.main}`" placeholder="Recommended: 1%">
                     <span class="self-center">%</span>
                 </div>
             </div>
