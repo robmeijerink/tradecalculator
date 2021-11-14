@@ -249,10 +249,7 @@ export default {
 
 #risk {
     width: 95%;
-}
-
-#risk:focus-visible {
-    outline: none;
+    outline: none !important;
 }
 
 </style>
