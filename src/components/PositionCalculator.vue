@@ -125,7 +125,7 @@ export default {
                 diffTp = this.input.exit_price ? this.input.order_price + (this.input.order_price - this.input.exit_price) : null
             }
 
-            if (diffSl > 0 && diffTp > 0) {
+            if (diffSl > 0) {
                 this.input.stop_loss = diffSl
                 this.input.exit_price = diffTp
             }
