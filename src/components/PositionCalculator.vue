@@ -8,7 +8,7 @@
                 <span v-if="!input.account_balance" class="pr-2">
                     <i class="fas fa-times-circle text-red-400"></i>
                 </span>
-                <input v-model.number="input.account_balance" v-maska="masks.price" inputmode="numeric" @keydown.space.prevent type="text" id="account_balance" name="account_balance" placeholder="$$$" 
+                <input v-model.number="input.account_balance" v-maska="masks.price" inputmode="numeric" @keydown.space.prevent type="text" id="account_balance" name="account_balance" placeholder="$$$"
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 green-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:flex items-center mb-10">
@@ -43,17 +43,7 @@
                 <span v-if="!validExitPrice || !validStopLoss" class="pr-2">
                     <i class="fas fa-times-circle text-red-400"></i>
                 </span>
-                <input v-model.number="input.order_price" v-maska="masks.price" inputmode="numeric" type="text" @keydown.space.prevent id="order_price" name="order_price" placeholder="$$$" 
-                    class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
-            </div>
-            <div class="sm:flex items-center mb-5">
-                <label for="exit_price" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
-                    Exit Price (TP)
-                </label>
-                <span v-if="!validExitPrice" class="pr-2">
-                    <i class="fas fa-times-circle text-red-400"></i>
-                </span>
-                <input v-model.number="input.exit_price" v-maska="masks.price" inputmode="numeric" type="text" @keydown.space.prevent id="exit_price" name="exit_price" placeholder="$$$" 
+                <input v-model.number="input.order_price" v-maska="masks.price" inputmode="numeric" type="text" @keydown.space.prevent id="order_price" name="order_price" placeholder="$$$"
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:flex items-center mb-5">
@@ -63,13 +53,23 @@
                 <span v-if="!validStopLoss" class="pr-2">
                     <i class="fas fa-times-circle text-red-400"></i>
                 </span>
-                <input v-model.number="input.stop_loss" v-maska="masks.price" inputmode="numeric" type="text" @keydown.space.prevent id="stop_loss" name="stop_loss" placeholder="$$$" 
+                <input v-model.number="input.stop_loss" v-maska="masks.price" inputmode="numeric" type="text" @keydown.space.prevent id="stop_loss" name="stop_loss" placeholder="$$$"
+                    class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
+            </div>
+            <div class="sm:flex items-center mb-5">
+                <label for="exit_price" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
+                    Exit Price <span title="Take Profit">(TP)</span>
+                </label>
+                <span v-if="!validExitPrice" class="pr-2">
+                    <i class="fas fa-times-circle text-red-400"></i>
+                </span>
+                <input v-model.number="input.exit_price" v-maska="masks.price" inputmode="numeric" type="text" @keydown.space.prevent id="exit_price" name="exit_price" placeholder="$$$"
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:text-right">
                 <button :disabled="!canSubmit" :class="submitBtnClass" class="w-full sm:w-60 py-3 px-8 mt-4 text-white font-bold" @click.prevent="calculate">
                     <i class="fas mr-3" :class="{ 'fa-check': finishedCalculating, 'fa-calculator': !finishedCalculating }"></i> Calculate
-                </button> 
+                </button>
             </div>
         </form>
         <div v-if="hasResults">
@@ -83,9 +83,9 @@
 
 <script>
 
+import { isEmpty } from 'lodash'
 import PositionPreview from './PositionPreview.vue'
 import PositionResults from './PositionResults.vue'
-import {isEmpty} from 'lodash'
 
 export default {
     components: {
@@ -138,8 +138,8 @@ export default {
     },
     computed: {
         canSubmit() {
-            return this.input.account_balance && this.input.risk && this.input.order_price && 
-                   this.input.exit_price && this.input.stop_loss && this.validExitPrice && this.validStopLoss
+            return this.input.account_balance && this.input.risk && this.input.order_price &&
+                   this.input.stop_loss && this.validStopLoss && this.validExitPrice
         },
         hasResults() {
             return ! isEmpty(this.results)
@@ -194,16 +194,19 @@ export default {
 
             if (this.input.type === 'long') {
                 this.results.order_size = risk / (this.input.order_price - this.input.stop_loss)
-                this.results.profit = (this.input.exit_price - this.input.order_price) * this.results.order_size
             } else {
                 this.results.order_size = risk / (this.input.stop_loss - this.input.order_price)
-                this.results.profit = (this.input.order_price - this.input.exit_price) * this.results.order_size
+            }
+
+            this.results.profit = this.getProfit()
+
+            if (this.results.profit) {
+                this.results.profit = this.results.profit.toFixed(2)
+                this.results.profit_on_account_percentage = ((this.results.profit / this.input.account_balance) * 100).toFixed(2)
             }
 
             this.results.rrr = this.results.profit / risk
-
             this.results.order_size = this.results.order_size.toFixed(9)
-            this.results.profit = this.results.profit.toFixed(2)
             this.results.loss = this.results.loss.toFixed(2)
             this.results.rrr = this.results.rrr.toFixed(2)
 
@@ -216,6 +219,18 @@ export default {
 
             this.finishedCalculating = true
             setTimeout(() => this.finishedCalculating = false, 250)
+        },
+        getProfit() {
+            let profit = null
+
+            if (this.input.exit_price) {
+                if (this.input.type === 'long') {
+                    profit = (this.input.exit_price - this.input.order_price) * this.results.order_size
+                } else {
+                    profit = (this.input.order_price - this.input.exit_price) * this.results.order_size
+                }
+            }
+            return profit
         },
         getRadioBtnClass(name) {
             if (this.type == name) {

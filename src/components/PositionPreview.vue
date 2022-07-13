@@ -31,7 +31,7 @@
                     </span>
                 </div>
             </div>
-            <div class="block sm:flex items-center mb-3">
+            <div v-if="order.take_profit" class="block sm:flex items-center mb-3">
                 <span class="w-full inline-block sm:w-72 sm:pr-16 sm:text-right font-semibold text-gray-600">
                     Take Profit
                 </span>
