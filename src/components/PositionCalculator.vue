@@ -119,10 +119,10 @@ export default {
 
             if (val === 'long') {
                 diffSl = this.input.order_price + (this.input.order_price - this.input.stop_loss)
-                diffTp = this.input.order_price - (this.input.exit_price - this.input.order_price)
+                diffTp = this.input.exit_price ? this.input.order_price - (this.input.exit_price - this.input.order_price) : null
             } else {
                 diffSl = this.input.order_price - (this.input.stop_loss - this.input.order_price)
-                diffTp = this.input.order_price + (this.input.order_price - this.input.exit_price)
+                diffTp = this.input.exit_price ? this.input.order_price + (this.input.order_price - this.input.exit_price) : null
             }
 
             if (diffSl > 0 && diffTp > 0) {
