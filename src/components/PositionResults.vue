@@ -29,8 +29,8 @@
                         <span class="w-full inline-block sm:pr-16 sm:w-56 sm:text-right font-semibold text-gray-600 whitespace-nowrap">
                             Profit
                         </span>
-                        <span class="w-8/12 flex-grow text-right sm:text-left">
-                            {{ money(results.profit) }} <span class="text-green-600 cursor-help" title="Return on account balance">(+ {{ results.profit_on_account_percentage }}%)</span>
+                        <span class="w-8/12 flex-grow text-right sm:text-left flex gap-1 flex-col sm:flex-row">
+                            {{ money(results.profit) }} <span class="text-green-600 whitespace-nowrap cursor-help" title="Return on account balance">(+ {{ results.profit_on_account_percentage }}%)</span>
                         </span>
                     </div>
                     <div class="flex items-center mb-3" :class="classBag.textColor">
