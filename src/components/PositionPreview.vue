@@ -31,20 +31,7 @@
                     </span>
                 </div>
             </div>
-            <div v-if="order.take_profit" class="block sm:flex items-center mb-3">
-                <span class="w-full inline-block sm:w-72 sm:pr-16 sm:text-right font-semibold text-gray-600">
-                    Take Profit
-                </span>
-                <div class="flex items-center w-full">
-                    <span class="flex-grow">
-                        {{ money(order.take_profit) }}
-                    </span>
-                    <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('take_profit')" title="Copy Take Profit">
-                        <i :class="{ 'fas fa-check': copied === 'take_profit', 'far fa-copy': copied !== 'take_profit' }"></i>
-                    </span>
-                </div>
-            </div>
-            <div class="block sm:flex items-center">
+            <div class="block sm:flex items-center mb-3">
                 <span class="w-full inline-block sm:w-72 sm:pr-16 sm:text-right font-semibold text-gray-600">
                     Stop Loss
                 </span>
@@ -54,6 +41,19 @@
                     </span>
                     <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('stop_loss')" title="Copy Stop Loss">
                         <i :class="{ 'fas fa-check': copied === 'stop_loss', 'far fa-copy': copied !== 'stop_loss' }"></i>
+                    </span>
+                </div>
+            </div>
+            <div v-if="order.take_profit" class="block sm:flex items-center">
+                <span class="w-full inline-block sm:w-72 sm:pr-16 sm:text-right font-semibold text-gray-600">
+                    Take Profit
+                </span>
+                <div class="flex items-center w-full">
+                    <span class="flex-grow">
+                        {{ money(order.take_profit) }}
+                    </span>
+                    <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('take_profit')" title="Copy Take Profit">
+                        <i :class="{ 'fas fa-check': copied === 'take_profit', 'far fa-copy': copied !== 'take_profit' }"></i>
                     </span>
                 </div>
             </div>
