@@ -30,7 +30,7 @@
                             Profit
                         </span>
                         <span class="w-8/12 flex-grow text-right sm:text-left">
-                            {{ money(results.profit) }} <span class="text-green-600" title="Return on account balance">(+ {{ results.profit_on_account_percentage }}%)</span>
+                            {{ money(results.profit) }} <span class="text-green-600 cursor-help" title="Return on account balance">(+ {{ results.profit_on_account_percentage }}%)</span>
                         </span>
                     </div>
                     <div class="flex items-center mb-3" :class="classBag.textColor">

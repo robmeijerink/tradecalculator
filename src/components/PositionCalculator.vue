@@ -58,7 +58,7 @@
             </div>
             <div class="sm:flex items-center mb-5">
                 <label for="exit_price" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
-                    Exit Price <span title="Take Profit">(TP)</span>
+                    Exit Price <span class="cursor-help" title="Take Profit">(TP)</span>
                 </label>
                 <span v-if="!validExitPrice" class="pr-2">
                     <i class="fas fa-times-circle text-red-400"></i>
