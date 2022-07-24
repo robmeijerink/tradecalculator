@@ -34,7 +34,7 @@
                         </span>
                     </div>
                     <div class="flex items-center mb-3" :class="classBag.textColor">
-                        <span class="w-full inline-block sm:pr-16 sm:w-56 sm:text-right font-semibold whitespace-nowrap">
+                        <span class="w-full inline-block sm:pr-16 sm:w-56 sm:text-right font-semibold whitespace-nowrap cursor-help" title="Risk Reward Ratio">
                             RRR
                         </span>
                         <span class="w-8/12 flex-grow text-right sm:text-left">

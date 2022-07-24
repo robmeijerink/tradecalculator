@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://tradingcalc.eu/sitemap.txt
