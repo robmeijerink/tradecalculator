@@ -6,33 +6,36 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref, computed } from 'vue'
 
-import LogoHeader from './components/LogoHeader.vue'
-import PositionCalculator from './components/PositionCalculator.vue'
-import DeveloperCredits from './components/DeveloperCredits.vue'
+import Colors from '@/colors'
+import { TradeType } from '@/types/trade'
 
-export default {
+import LogoHeader from '@/components/LogoHeader.vue'
+import PositionCalculator from '@/components/PositionCalculator.vue'
+import DeveloperCredits from '@/components/DeveloperCredits.vue'
+
+export default defineComponent({
   components: {
     LogoHeader,
     PositionCalculator,
-    DeveloperCredits,
+    DeveloperCredits
   },
-  data() {
-    return {
-      type: 'long'
+  setup() {
+    const type = ref<TradeType>('long')
+
+    const bgClass = computed(() => 'bg-' + Colors[type.value].main)
+
+    const updateType = (newType: TradeType) => {
+      type.value = newType
     }
-  },
-  computed: {
-    bgClass() {
-      return 'bg-' + this.globalColors[this.type].main
-    },
-  },
-  methods: {
-    updateType(type) {
-      this.type = type
+
+    return {
+      type,
+      bgClass,
+      updateType
     }
   }
-}
-
+})
 </script>

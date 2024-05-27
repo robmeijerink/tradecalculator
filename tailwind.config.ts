@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   purge: {
     content: [
       './index.html',
@@ -10,15 +10,15 @@ module.exports = {
       'bg-green-200',
       'bg-red-200',
       'focus:border-red-400',
-      'focus:border-green-400',
+      'focus:border-green-400'
     ]
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {}
   },
   variants: {
-    extend: {},
+    extend: {}
   },
-  plugins: [],
+  plugins: [] as any[]
 }

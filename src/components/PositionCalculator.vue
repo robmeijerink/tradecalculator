@@ -1,3 +1,10 @@
+<style scoped>
+#risk {
+    width: 95%;
+    outline: none !important;
+}
+</style>
+
 <template>
     <div class="bg-white p-10 md:w-3/4 lg:w-1/2 mx-auto mb-2">
         <form>
@@ -8,7 +15,7 @@
                 <span v-if="!input.account_balance" class="pr-2">
                     <i class="fas fa-times-circle text-red-400"></i>
                 </span>
-                <input v-model.number="input.account_balance" v-maska="masks.price" inputmode="numeric" @keydown.space.prevent type="text" id="account_balance" name="account_balance" placeholder="$$$"
+                <input v-model.number="input.account_balance" inputmode="numeric" @keydown.space.prevent type="text" id="account_balance" name="account_balance" placeholder="$$$"
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 green-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:flex items-center mb-10">
@@ -43,7 +50,7 @@
                 <span v-if="!validExitPrice || !validStopLoss" class="pr-2">
                     <i class="fas fa-times-circle text-red-400"></i>
                 </span>
-                <input v-model.number="input.order_price" v-maska="masks.price" inputmode="numeric" type="text" @keydown.space.prevent id="order_price" name="order_price" placeholder="$$$"
+                <input v-model.number="input.order_price" inputmode="numeric" type="text" @keydown.space.prevent id="order_price" name="order_price" placeholder="$$$"
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:flex items-center mb-5">
@@ -53,7 +60,7 @@
                 <span v-if="!validStopLoss" class="pr-2">
                     <i class="fas fa-times-circle text-red-400"></i>
                 </span>
-                <input v-model.number="input.stop_loss" v-maska="masks.price" inputmode="numeric" type="text" @keydown.space.prevent id="stop_loss" name="stop_loss" placeholder="$$$"
+                <input v-model.number="input.stop_loss" inputmode="numeric" type="text" @keydown.space.prevent id="stop_loss" name="stop_loss" placeholder="$$$"
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:flex items-center mb-5">
@@ -63,7 +70,7 @@
                 <span v-if="!validExitPrice" class="pr-2">
                     <i class="fas fa-times-circle text-red-400"></i>
                 </span>
-                <input v-model.number="input.exit_price" v-maska="masks.price" inputmode="numeric" type="text" @keydown.space.prevent id="exit_price" name="exit_price" placeholder="$$$"
+                <input v-model.number="input.exit_price" inputmode="numeric" type="text" @keydown.space.prevent id="exit_price" name="exit_price" placeholder="$$$"
                     class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:text-right">
@@ -81,190 +88,215 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, ref, reactive, computed, watch, PropType } from 'vue'
 
-import { isEmpty } from 'lodash'
-import PositionPreview from './PositionPreview.vue'
-import PositionResults from './PositionResults.vue'
+import { TradeType, TradeInput, TradeResults, Order } from '@/types/trade'
+import isEmpty from 'lodash/isEmpty'
+import Colors from '@/colors'
 
-export default {
+import PositionPreview from '@/components/PositionPreview.vue'
+import PositionResults from '@/components/PositionResults.vue'
+
+export default defineComponent({
     components: {
         PositionPreview,
-        PositionResults,
+        PositionResults
     },
-    props: ['type'],
-    data() {
-        return {
-            input: {
-                account_balance: 1000,
-                risk: 1.00,
-                type: 'long',
-                order_price: null,
-                exit_price: null,
-                stop_loss: null,
-            },
-            masks: {
-                price: '#*.##',
-            },
-            results: {},
-            order: {},
-            finishedCalculating: false,
+    props: {
+        type: {
+            type: String as PropType<TradeType>,
+            required: true
         }
     },
-    watch: {
-        'input.type': function (val) {
+    setup(props, { emit }) {
+        const input = reactive<TradeInput>({
+            account_balance: 1000,
+            risk: 1.00,
+            type: 'long',
+            order_price: null as number | null,
+            exit_price: null as number | null,
+            stop_loss: null as number | null
+        })
+
+        const results = reactive<TradeResults>({})
+        const order = reactive<Order>({})
+        const finishedCalculating = ref<boolean>(false)
+
+        watch(() => input.type, (val) => {
+            if (input.order_price === null || input.stop_loss === null) {
+                return
+            }
+
             let diffSl, diffTp
 
-            this.$emit('update-type', val)
+            emit('update-type', val)
 
             if (val === 'long') {
-                diffSl = this.input.order_price + (this.input.order_price - this.input.stop_loss)
-                diffTp = this.input.exit_price ? this.input.order_price - (this.input.exit_price - this.input.order_price) : null
+                diffSl = input.order_price + (input.order_price - input.stop_loss)
+                diffTp = input.exit_price !== null ? input.order_price - (input.exit_price - input.order_price) : null
             } else {
-                diffSl = this.input.order_price - (this.input.stop_loss - this.input.order_price)
-                diffTp = this.input.exit_price ? this.input.order_price + (this.input.order_price - this.input.exit_price) : null
+                diffSl = input.order_price - (input.stop_loss - input.order_price)
+                diffTp = input.exit_price !== null ? input.order_price + (input.order_price - input.exit_price) : null
             }
 
             if (diffSl > 0) {
-                this.input.stop_loss = diffSl
-                this.input.exit_price = diffTp
+                input.stop_loss = diffSl
+                input.exit_price = diffTp
             }
-        },
-        'input.risk': function (val) {
-            if (val > 100) {
-                this.input.risk = 100
-            }
-        }
-    },
-    computed: {
-        canSubmit() {
-            return this.input.account_balance && this.input.risk && this.input.order_price &&
-                   this.input.stop_loss && this.validStopLoss && this.validExitPrice
-        },
-        hasResults() {
-            return ! isEmpty(this.results)
-        },
-        typeColor() {
-            return {
-                main: this.globalColors[this.type].main,
-                muted: this.globalColors[this.type].main.replace('400', '200')
-            }
-        },
-        submitBtnClass() {
-            let classNames = 'bg-' + (this.canSubmit ? this.typeColor.main : this.typeColor.muted)
+        })
 
-            if (this.canSubmit) {
+        watch(() => input.risk, (val: number) => {
+            if (val > 100) {
+                input.risk = 100
+            }
+        })
+
+        const canSubmit = computed(() => {
+            return input.account_balance && input.risk && input.order_price &&
+                input.stop_loss && validStopLoss.value && validExitPrice.value
+        })
+
+        const hasResults = computed(() => {
+            return !isEmpty(results)
+        })
+
+        const typeColor = computed(() => {
+            return {
+                main: Colors[props.type].main,
+                muted: Colors[props.type].main.replace('400', '200')
+            }
+        })
+
+        const submitBtnClass = computed(() => {
+            let classNames = 'bg-' + (canSubmit.value ? typeColor.value.main : typeColor.value.muted)
+
+            if (canSubmit.value) {
                 classNames += ' cursor-pointer'
             } else {
                 classNames += ' cursor-not-allowed'
             }
 
             return classNames
-        },
-        validExitPrice() {
-            if (! this.input.exit_price) {
+        })
+
+        const validExitPrice = computed(() => {
+            if (input.exit_price === null) {
                 return true
             }
-
-            if (this.type === 'long') {
-                return this.input.order_price < this.input.exit_price
+            if (input.order_price === null) {
+                return false
             }
 
-            return this.input.order_price > this.input.exit_price
-        },
-        validStopLoss() {
-            if (! this.input.stop_loss) {
+            if (props.type === 'long') {
+                return input.order_price < input.exit_price
+            }
+
+            return input.order_price > input.exit_price
+        })
+
+        const validStopLoss = computed(() => {
+            if (input.stop_loss === null) {
                 return true
             }
-
-            if (this.type === 'long') {
-                return this.input.order_price > this.input.stop_loss
+            if (input.order_price === null) {
+                return false
             }
 
-            return this.input.order_price < this.input.stop_loss
-        }
-    },
-    methods: {
-        calculate() {
-            const risk = this.input.account_balance * (this.input.risk / 100)
-
-            this.results = {
-                loss: risk,
+            if (props.type === 'long') {
+                return input.order_price > input.stop_loss
             }
 
-            if (this.input.type === 'long') {
-                this.results.order_size = risk / (this.input.order_price - this.input.stop_loss)
+            return input.order_price < input.stop_loss
+        })
+
+        const calculate = () => {
+            if (!input.order_price || ! input.stop_loss || !input.account_balance) {
+                return
+            }
+
+            const risk = input.account_balance * (input.risk / 100)
+            let orderSize: number
+
+            if (input.type === 'long') {
+                orderSize = risk / (input.order_price - input.stop_loss)
             } else {
-                this.results.order_size = risk / (this.input.stop_loss - this.input.order_price)
+                orderSize = risk / (input.stop_loss - input.order_price)
             }
 
-            this.results.profit = this.getProfit()
+            const profit = getProfit()
 
-            if (this.results.profit) {
-                this.results.profit = this.results.profit.toFixed(2)
-                this.results.profit_on_account_percentage = ((this.results.profit / this.input.account_balance) * 100).toFixed(2)
+            if (profit) {
+                results.profit = profit.toFixed(2)
+                results.profit_on_account_percentage = ((profit / input.account_balance) * 100).toFixed(2)
             }
 
-            this.results.rrr = this.results.profit / risk
-            this.results.order_size = this.results.order_size.toFixed(9)
-            this.results.loss = this.results.loss.toFixed(2)
-            this.results.rrr = this.results.rrr.toFixed(2)
+            const rrr = profit / risk
 
-            this.order = {
-                order_price: this.input.order_price,
-                qty: Math.floor(this.results.order_size * this.input.order_price),
-                take_profit: this.input.exit_price,
-                stop_loss: this.input.stop_loss,
-            }
+            results.order_size = orderSize.toFixed(9)
+            results.loss = risk.toFixed(2)
+            results.rrr = rrr.toFixed(2)
 
-            this.finishedCalculating = true
-            setTimeout(() => this.finishedCalculating = false, 250)
-        },
-        getProfit() {
-            let profit = null
+            order.order_price = input.order_price
+            order.qty = Math.floor(orderSize * input.order_price)
+            order.take_profit = input.exit_price
+            order.stop_loss = input.stop_loss
 
-            if (this.input.exit_price) {
-                if (this.input.type === 'long') {
-                    profit = (this.input.exit_price - this.input.order_price) * this.results.order_size
+            finishedCalculating.value = true
+            setTimeout(() => finishedCalculating.value = false, 250)
+        }
+
+        const getProfit = () => {
+            let profit = 0
+
+            if (input.order_price && results.order_size && input.exit_price) {
+                if (input.type === 'long') {
+                    profit = (input.exit_price - input.order_price) * Number(results.order_size)
                 } else {
-                    profit = (this.input.order_price - this.input.exit_price) * this.results.order_size
+                    profit = (input.order_price - input.exit_price) * Number(results.order_size)
                 }
             }
             return profit
-        },
-        getRadioBtnClass(name) {
-            if (this.type == name) {
-                return `bg-${this.typeColor.main} text-white`
+        }
+
+        const getRadioBtnClass = (name: string) => {
+            if (props.type === name) {
+                return `bg-${typeColor.value.main} text-white`
             }
 
             return 'bg-gray-200 text-gray-700'
-        },
-        onlyNumeric(event) {
-            const safelist = [
-                'Backspace',
-                'Delete'
-            ]
+        }
 
-            if (! safelist.includes(event.key) && isNaN(event.key)) {
+        const onlyNumeric = (event: KeyboardEvent) => {
+            const safelist = ['Backspace', 'Delete']
+
+            if (!safelist.includes(event.key) && isNaN(Number(event.key)) && event.currentTarget instanceof HTMLInputElement) {
                 event.preventDefault()
 
-                if ([',', '.'].includes(event.key) && ! event.target.value.includes('.')) {
-                    event.target.value += '.'
+                if ([',', '.'].includes(event.key) && !event.currentTarget.value.includes('.')) {
+                    event.currentTarget.value += '.'
                 }
 
                 return false
             }
-        },
-    },
-}
+        }
 
+        return {
+            input,
+            results,
+            order,
+            finishedCalculating,
+            canSubmit,
+            hasResults,
+            typeColor,
+            submitBtnClass,
+            validExitPrice,
+            validStopLoss,
+            calculate,
+            getProfit,
+            getRadioBtnClass,
+            onlyNumeric
+        }
+    }
+})
 </script>
-
-<style scoped>
-
-#risk {
-    width: 95%;
-    outline: none !important;
-}
-
-</style>
