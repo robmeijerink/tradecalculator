@@ -16,7 +16,7 @@
                     <i class="fas fa-times-circle text-red-400"></i>
                 </span>
                 <input v-model.number="input.account_balance" inputmode="numeric" @keydown.space.prevent type="text" id="account_balance" name="account_balance" placeholder="$$$"
-                    class="flex-1 w-full py-2 border-b-2 border-gray-400 green-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
+                    class="flex-1 w-full py-2 border-b-2 border-gray-400 emerald-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
             </div>
             <div class="sm:flex items-center mb-10">
                 <label for="risk" class="inline-block w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">

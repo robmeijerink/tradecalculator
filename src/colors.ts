@@ -1,6 +1,6 @@
 export default {
     long: {
-        main: 'green-400'
+        main: 'emerald-400'
     },
     short: {
         main: 'red-400'
@@ -26,27 +26,27 @@ export default {
                 smileyClass = 'fa-frown-open'
                 break
             case rrr <= 2:
-                textColor = 'text-yellow-600'
+                textColor = 'text-amber-600'
                 smileyClass = 'fa-smile'
                 break
             case rrr <= 2.5:
-                textColor = 'text-green-900'
+                textColor = 'text-emerald-900'
                 smileyClass = 'fa-grin-alt'
                 break
             case rrr <= 3:
-                textColor = 'text-green-800'
+                textColor = 'text-emerald-800'
                 smileyClass = 'fa-smile-beam'
                 break
             case rrr <= 3.5:
-                textColor = 'text-green-600'
+                textColor = 'text-emerald-600'
                 smileyClass = 'fa-grin-beam'
                 break
             case rrr <= 5:
-                textColor = 'text-green-500'
+                textColor = 'text-emerald-500'
                 smileyClass = 'fa-grin-squint'
                 break
             case rrr >= 7:
-                textColor = 'text-green-400'
+                textColor = 'text-emerald-400'
                 smileyClass = 'fa-grin-squint-tears'
                 break
             default:

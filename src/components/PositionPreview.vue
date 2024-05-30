@@ -10,7 +10,7 @@
           Order Price
         </span>
         <div class="flex items-center w-full">
-          <span class="flex-grow">
+          <span class="grow">
             {{ money(order.order_price) }}
           </span>
           <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('order_price')" title="Copy Order Price">
@@ -23,7 +23,7 @@
           Qty
         </span>
         <div class="flex items-center w-full">
-          <span class="flex-grow">
+          <span class="grow">
             {{ order.qty.toLocaleString('en-US') }}
           </span>
           <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('qty')" title="Copy Qty">
@@ -36,7 +36,7 @@
           Stop Loss
         </span>
         <div class="flex items-center w-full">
-          <span class="flex-grow">
+          <span class="grow">
             {{ money(order.stop_loss) }}
           </span>
           <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('stop_loss')" title="Copy Stop Loss">
@@ -49,7 +49,7 @@
           Take Profit
         </span>
         <div class="flex items-center w-full">
-          <span class="flex-grow">
+          <span class="grow">
             {{ money(order.take_profit) }}
           </span>
           <span class="py-2 px-4 border hover:bg-gray-200 cursor-pointer" @click="copy('take_profit')" title="Copy Take Profit">
