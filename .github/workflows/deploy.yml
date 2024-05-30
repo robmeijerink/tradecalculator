@@ -18,7 +18,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         cache: 'npm'
-        cache-dependency-path: '**/package-lock.json'
+        cache-dependency-path: 'package-lock.json'
         node-version: '20'
 
     - name: Install dependencies
@@ -37,5 +37,12 @@ jobs:
       with:
         project_id: ${{ secrets.GOOGLE_APP_PROJECT_ID }}
 
+    - name: Prepare deployment directory
+      run: |
+        mkdir temp_deploy_files
+        cp -r dist/* app.yaml .gcloudignore main.go go.mod temp_deploy_files/
+
     - name: Deploy to App Engine
-      run: gcloud app deploy --quiet
+      working-directory: temp_deploy_files
+      run: |
+        gcloud app deploy --quiet
