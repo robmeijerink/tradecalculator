@@ -45,7 +45,7 @@ export default {
                 textColor = 'text-emerald-500'
                 smileyClass = 'fa-grin-squint'
                 break
-            case rrr >= 7:
+            case rrr > 5:
                 textColor = 'text-emerald-400'
                 smileyClass = 'fa-grin-squint-tears'
                 break

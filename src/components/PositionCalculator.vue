@@ -99,6 +99,7 @@ import PositionPreview from '@/components/PositionPreview.vue'
 import PositionResults from '@/components/PositionResults.vue'
 
 export default defineComponent({
+    emits: ['update-type'],
     components: {
         PositionPreview,
         PositionResults
@@ -124,26 +125,7 @@ export default defineComponent({
         const finishedCalculating = ref<boolean>(false)
 
         watch(() => input.type, (val) => {
-            if (input.order_price === null || input.stop_loss === null) {
-                return
-            }
-
-            let diffSl, diffTp
-
             emit('update-type', val)
-
-            if (val === 'long') {
-                diffSl = input.order_price + (input.order_price - input.stop_loss)
-                diffTp = input.exit_price !== null ? input.order_price - (input.exit_price - input.order_price) : null
-            } else {
-                diffSl = input.order_price - (input.stop_loss - input.order_price)
-                diffTp = input.exit_price !== null ? input.order_price + (input.order_price - input.exit_price) : null
-            }
-
-            if (diffSl > 0) {
-                input.stop_loss = diffSl
-                input.exit_price = diffTp
-            }
         })
 
         watch(() => input.risk, (val: number) => {
@@ -224,6 +206,9 @@ export default defineComponent({
                 orderSize = risk / (input.stop_loss - input.order_price)
             }
 
+            results.order_size = orderSize.toFixed(9)
+            results.loss = risk.toFixed(2)
+
             const profit = getProfit()
 
             if (profit) {
@@ -233,8 +218,6 @@ export default defineComponent({
 
             const rrr = profit / risk
 
-            results.order_size = orderSize.toFixed(9)
-            results.loss = risk.toFixed(2)
             results.rrr = rrr.toFixed(2)
 
             order.order_price = input.order_price
