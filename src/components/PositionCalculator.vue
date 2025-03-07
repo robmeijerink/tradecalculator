@@ -251,7 +251,7 @@ export default defineComponent({
         }
 
         const onlyNumeric = (event: KeyboardEvent) => {
-            const safelist = ['Backspace', 'Delete']
+            const safelist = ['Backspace', 'Delete', '.']
 
             if (!safelist.includes(event.key) && isNaN(Number(event.key)) && event.currentTarget instanceof HTMLInputElement) {
                 event.preventDefault()
