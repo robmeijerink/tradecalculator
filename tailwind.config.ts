@@ -4,8 +4,8 @@ export default {
         './src/**/*.{vue,js,ts,jsx,tsx}'
     ],
     safelist: [
-        'bg-red-400',
-        'bg-emerald-400',
+        'bg-red-500',
+        'bg-emerald-800',
         'bg-emerald-200',
         'bg-red-200',
         'focus:border-red-400',

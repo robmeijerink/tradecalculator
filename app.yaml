@@ -2,7 +2,6 @@ runtime: go126
 
 instance_class: F1
 
-# Costs saving (thanks to Go)
 automatic_scaling:
   target_cpu_utilization: 0.95
   max_instances: 1
@@ -12,46 +11,41 @@ automatic_scaling:
   max_concurrent_requests: 80
 
 handlers:
-- url: /
-  static_files: index.html
-  upload: index.html
+- url: /trading-calculator-groen-diap.svg
+  static_files: trading-calculator-groen-diap.svg
+  upload: trading-calculator-groen-diap.svg
   secure: always
-  redirect_http_response_code: 301
-  http_headers:
-    Strict-Transport-Security: max-age=31536000; includeSubDomains
+  expiration: 365d
+
+- url: /trading-calculator-rood-diap.svg
+  static_files: trading-calculator-rood-diap.svg
+  upload: trading-calculator-rood-diap.svg
+  secure: always
+  expiration: 365d
 
 - url: /favicon.ico
   static_files: favicon.ico
   upload: favicon.ico
   secure: always
-  redirect_http_response_code: 301
-  http_headers:
-    Strict-Transport-Security: max-age=31536000; includeSubDomains
+  expiration: 365d
 
 - url: /robots.txt
   static_files: robots.txt
   upload: robots.txt
   secure: always
-  redirect_http_response_code: 301
-  http_headers:
-    Strict-Transport-Security: max-age=31536000; includeSubDomains
+  expiration: 365d
 
 - url: /sitemap.txt
   static_files: sitemap.txt
   upload: sitemap.txt
   secure: always
-  redirect_http_response_code: 301
-  http_headers:
-    Strict-Transport-Security: max-age=31536000; includeSubDomains
-
-- url: /assets
-  static_dir: assets
-  secure: always
-  redirect_http_response_code: 301
-  http_headers:
-    Strict-Transport-Security: max-age=31536000; includeSubDomains
+  expiration: 365d
 
 - url: /.*
-  script: auto
+  static_files: index.html
+  upload: index.html
   secure: always
-  redirect_http_response_code: 301
+  expiration: 365d
+  http_headers:
+    Strict-Transport-Security: "max-age=31536000; includeSubDomains"
+    Cache-Control: "public, max-age=31536000, immutable"

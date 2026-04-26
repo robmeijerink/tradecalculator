@@ -1,9 +1,9 @@
 export default {
     long: {
-        main: 'emerald-400'
+        main: 'emerald-800'
     },
     short: {
-        main: 'red-400'
+        main: 'red-500'
     },
     getRrrColors(rrr: number) {
         let textColor: string, smileyClass: string
