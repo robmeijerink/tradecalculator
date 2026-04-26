@@ -1,3 +1,3 @@
 module github.com/robmeijerink/tradecalculator
 
-go 1.15
+go 1.26

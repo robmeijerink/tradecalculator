@@ -6,48 +6,46 @@
       </h2>
     </div>
     <hr class="mt-4 mb-8">
-    <div class="sm:flex">
-      <div class="flex w-11/12 flex-col">
-        <div class="flex items-center mb-3">
-          <span class="w-full inline-block sm:pr-16 sm:w-56 sm:text-right font-semibold text-gray-600 whitespace-nowrap">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div class="flex-1 min-w-0 w-full sm:pr-4">
+        <div class="flex items-center mb-5">
+          <span class="inline-block w-2/5 sm:w-56 pr-2 sm:pr-16 sm:text-right font-semibold text-gray-600 whitespace-nowrap">
             Size
           </span>
-          <span class="w-8/12 grow text-right sm:text-left">
+          <span class="flex-1 min-w-0 text-right sm:text-left break-all">
             {{ results.order_size }}
           </span>
         </div>
-        <div class="flex items-center mb-3">
-          <span class="w-full inline-block sm:pr-16 sm:w-56 sm:text-right font-semibold text-gray-600 whitespace-nowrap">
+        <div class="flex items-center mb-5">
+          <span class="inline-block w-2/5 sm:w-56 pr-2 sm:pr-16 sm:text-right font-semibold text-gray-600 whitespace-nowrap">
             Loss
           </span>
-          <span class="w-8/12 grow text-right sm:text-left">
+          <span class="flex-1 min-w-0 text-right sm:text-left truncate">
             {{ money(results.loss) }}
           </span>
         </div>
         <template v-if="results.profit">
-          <div class="flex items-center mb-3">
-            <span class="w-full inline-block sm:pr-16 sm:w-56 sm:text-right font-semibold text-gray-600 whitespace-nowrap">
+          <div class="flex items-center mb-5">
+            <span class="inline-block w-2/5 sm:w-56 pr-2 sm:pr-16 sm:text-right font-semibold text-gray-600 whitespace-nowrap">
               Profit
             </span>
-            <span class="w-8/12 grow text-right sm:text-left flex gap-1 flex-col sm:flex-row">
-              {{ money(results.profit) }} <span class="text-emerald-600 whitespace-nowrap cursor-help" title="Return on account balance">(+ {{ results.profit_on_account_percentage }}%)</span>
+            <span class="flex-1 min-w-0 flex flex-wrap justify-end sm:justify-start gap-x-2 gap-y-1 items-center">
+              <span>{{ money(results.profit) }}</span>
+              <span class="text-emerald-600 whitespace-nowrap cursor-help" title="Return on account balance">(+ {{ results.profit_on_account_percentage }}%)</span>
             </span>
           </div>
-          <div class="flex items-center mb-3" :class="classBag.textColor">
-            <span class="w-full inline-block sm:pr-16 sm:w-56 sm:text-right font-semibold whitespace-nowrap cursor-help" title="Risk Reward Ratio">
+          <div class="flex items-center mb-5" :class="classBag.textColor">
+            <span class="inline-block w-2/5 sm:w-56 pr-2 sm:pr-16 sm:text-right font-semibold whitespace-nowrap cursor-help" title="Risk Reward Ratio">
               RRR
             </span>
-            <span class="w-8/12 grow text-right sm:text-left">
+            <span class="flex-1 min-w-0 text-right sm:text-left font-bold truncate">
               {{ results.rrr }}
             </span>
           </div>
         </template>
       </div>
-      <div v-if="results.profit" class="w-12/12 sm:w-1/12 mt-6 text-center sm:text-right sm:mt-0 sm:flex sm:flex-row-reverse items-center mb-2" :class="classBag.textColor">
-        <hr class="mt-4 mb-8 sm:hidden">
-        <div class="text-9xl">
-          <i class="far" :class="classBag.smileyClass"></i>
-        </div>
+      <div v-if="results.profit" class="mt-8 sm:mt-0 sm:w-32 flex justify-center items-center shrink-0" :class="classBag.textColor">
+        <i class="far text-8xl sm:text-9xl opacity-90" :class="classBag.smileyClass"></i>
       </div>
     </div>
   </div>

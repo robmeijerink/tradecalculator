@@ -14,15 +14,15 @@ export default {
                 smileyClass = 'fa-sad-cry'
                 break
             case rrr <= 1:
-                textColor = 'text-red-600'
+                textColor = 'text-red-700'
                 smileyClass = 'fa-sad-tear'
                 break
             case rrr <= 1.25:
-                textColor = 'text-red-500'
+                textColor = 'text-red-600'
                 smileyClass = 'fa-frown'
                 break
             case rrr <= 1.5:
-                textColor = 'text-red-400'
+                textColor = 'text-red-500'
                 smileyClass = 'fa-frown-open'
                 break
             case rrr <= 2:
@@ -38,15 +38,15 @@ export default {
                 smileyClass = 'fa-smile-beam'
                 break
             case rrr <= 3.5:
-                textColor = 'text-emerald-600'
+                textColor = 'text-emerald-700'
                 smileyClass = 'fa-grin-beam'
                 break
             case rrr <= 5:
-                textColor = 'text-emerald-500'
+                textColor = 'text-emerald-600'
                 smileyClass = 'fa-grin-squint'
                 break
             case rrr > 5:
-                textColor = 'text-emerald-400'
+                textColor = 'text-emerald-500'
                 smileyClass = 'fa-grin-squint-tears'
                 break
             default:

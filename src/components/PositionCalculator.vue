@@ -31,14 +31,14 @@
                 <label for="type" class="inline-block w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
                     Type
                 </label>
-                <div class="mt-6 sm:mt-0 sm:flex sm:flex-1">
-                    <label class="block w-full sm:w-6/12 mb-4 sm:mb-0 py-3 pl-4 pr-8 mr-5 cursor-pointer" :class="getRadioBtnClass('long')">
-                        <input v-model="input.type" name="type" type="radio" value="long"/>
-                        <span class="ml-3">Long</span>
+                <div class="mt-6 sm:mt-0 flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                    <label class="flex items-center w-full py-3 px-4 sm:justify-center cursor-pointer transition-colors" :class="getRadioBtnClass('long')">
+                        <input v-model="input.type" name="type" type="radio" value="long" class="sr-only"/>
+                        <span class="font-semibold">Long</span>
                     </label>
-                    <label class="block w-full sm:w-6/12 py-3 pl-4 pr-8 cursor-pointer" :class="getRadioBtnClass('short')">
-                        <input v-model="input.type" name="type" type="radio" value="short"/>
-                        <span class="ml-3">Short</span>
+                    <label class="flex items-center w-full py-3 px-4 sm:justify-center cursor-pointer transition-colors" :class="getRadioBtnClass('short')">
+                        <input v-model="input.type" name="type" type="radio" value="short" class="sr-only"/>
+                        <span class="font-semibold">Short</span>
                     </label>
                 </div>
             </div>
@@ -47,34 +47,45 @@
                 <label for="order_price" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
                     Order Price
                 </label>
-                <span v-if="!validExitPrice || !validStopLoss" class="pr-2">
-                    <i class="fas fa-times-circle text-red-400"></i>
-                </span>
-                <input v-model.number="input.order_price" inputmode="numeric" type="text" @keydown.space.prevent id="order_price" name="order_price" placeholder="$$$"
-                    class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
+                <div class="relative flex-1 w-full mt-2 sm:mt-0">
+                    <input v-model.number="input.order_price" inputmode="numeric" type="text" @keydown.space.prevent id="order_price" name="order_price" placeholder="$$$"
+                        class="w-full py-2 pr-8 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
+
+                    <span v-if="!validExitPrice || !validStopLoss" class="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <i class="fas fa-times-circle text-red-400"></i>
+                    </span>
+                </div>
             </div>
             <div class="sm:flex items-center mb-5">
                 <label for="stop_loss" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
                     Stop Loss
                 </label>
-                <span v-if="!validStopLoss" class="pr-2">
-                    <i class="fas fa-times-circle text-red-400"></i>
-                </span>
-                <input v-model.number="input.stop_loss" inputmode="numeric" type="text" @keydown.space.prevent id="stop_loss" name="stop_loss" placeholder="$$$"
-                    class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
+                <div class="relative flex-1 w-full mt-2 sm:mt-0">
+                    <input v-model.number="input.stop_loss" inputmode="numeric" type="text" @keydown.space.prevent id="stop_loss" name="stop_loss" placeholder="$$$"
+                        class="w-full py-2 pr-8 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
+
+                    <span v-if="!validStopLoss" class="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <i class="fas fa-times-circle text-red-400"></i>
+                    </span>
+                </div>
             </div>
             <div class="sm:flex items-center mb-5">
                 <label for="exit_price" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">
                     Exit Price <span class="cursor-help" title="Take Profit">(TP)</span>
                 </label>
-                <span v-if="!validExitPrice" class="pr-2">
-                    <i class="fas fa-times-circle text-red-400"></i>
-                </span>
-                <input v-model.number="input.exit_price" inputmode="numeric" type="text" @keydown.space.prevent id="exit_price" name="exit_price" placeholder="$$$"
-                    class="flex-1 w-full py-2 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
+                <div class="relative flex-1 w-full mt-2 sm:mt-0">
+                    <input v-model.number="input.exit_price" inputmode="numeric" type="text" @keydown.space.prevent id="exit_price" name="exit_price" placeholder="$$$"
+                        class="w-full py-2 pr-8 border-b-2 border-gray-400 text-gray-600 placeholder-gray-400 outline-none" :class="`focus:border-${typeColor.main}`">
+
+                    <span v-if="!validExitPrice" class="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <i class="fas fa-times-circle text-red-400"></i>
+                    </span>
+                </div>
             </div>
-            <div class="sm:text-right">
-                <button :disabled="!canSubmit" :class="submitBtnClass" class="w-full sm:w-60 py-3 px-8 mt-4 text-white font-bold" @click.prevent="calculate">
+            <div class="sm:flex mt-10">
+                <div class="hidden sm:block sm:w-56 pr-16"></div>
+
+                <button :disabled="!canSubmit" :class="submitBtnClass" class="flex items-center justify-center whitespace-nowrap flex-1 w-full py-3 px-8 text-white font-bold transition-opacity duration-200 disabled:opacity-50 disabled:cursor-not-allowed" @click.prevent="calculate">
                     <i class="fas mr-3" :class="{ 'fa-check': finishedCalculating, 'fa-calculator': !finishedCalculating }"></i> Calculate
                 </button>
             </div>
