@@ -1,21 +1,20 @@
 <template>
-  <div class="pl-6 p-10 md:w-3/4 lg:w-1/2 mx-auto">
+  <div class="w-full grid place-items-center mb-8 px-10 sm:px-0">
     <img
-      v-show="type === 'long'"
       src="/trading-calculator-groen-diap.svg"
-      class="mx-auto"
+      class="col-start-1 row-start-1 w-full h-auto transition-opacity duration-300"
+      :class="type === 'long' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'"
       alt="Trading Position Size Calculator"
       fetchpriority="high"
-      loading="eager"
       width="600"
       height="100"
     >
     <img
-      v-show="type === 'short'"
       src="/trading-calculator-rood-diap.svg"
-      class="mx-auto"
+      class="col-start-1 row-start-1 w-full h-auto transition-opacity duration-300"
+      :class="type === 'short' ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'"
       alt="Trading Position Size Calculator"
-      loading="lazy"
+      fetchpriority="high"
       width="600"
       height="100"
     >

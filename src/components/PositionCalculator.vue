@@ -6,7 +6,7 @@
 </style>
 
 <template>
-    <div class="bg-white p-10 md:w-3/4 lg:w-1/2 mx-auto mb-2">
+    <div class="bg-white p-10 w-full max-w-4xl mx-auto mb-2 rounded shadow-sm">
         <form>
             <div class="sm:flex items-center mb-5">
                 <label for="account_balance" class="inline-block sm:w-56 pr-16 sm:text-right font-bold text-gray-600 whitespace-nowrap">

@@ -1,8 +1,10 @@
 <template>
-  <div class="py-2 px-10 min-h-screen" :class="bgClass">
-    <logo-header :type="type"></logo-header>
-    <position-calculator :type="type" @update-type="updateType"></position-calculator>
-    <developer-credits></developer-credits>
+  <div class="py-8 px-4 sm:px-10 min-h-screen flex flex-col justify-center items-center" :class="bgClass">
+    <div class="w-full sm:w-4/5 md:w-3/4 lg:w-1/2 max-w-3xl mx-auto">
+      <logo-header :type="type"></logo-header>
+      <position-calculator :type="type" @update-type="updateType"></position-calculator>
+      <developer-credits></developer-credits>
+    </div>
   </div>
 </template>
 
